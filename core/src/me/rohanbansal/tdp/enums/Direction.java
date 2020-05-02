@@ -1,0 +1,6 @@
+package me.rohanbansal.tdp.enums;
+
+public enum Direction {
+
+    DRIVE_NONE, DRIVE_FORWARD, DRIVE_BACKWARD, TURN_NONE, TURN_LEFT, TURN_RIGHT, WALK_FORWARD, WALK_BACKWARD, WALK_LEFT, WALK_RIGHT, WALK_NONE,
+}
