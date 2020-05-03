@@ -25,7 +25,6 @@ import static me.rohanbansal.tdp.Constants.PPM;
 public class MapLoader implements Disposable {
 
     private static final String MAP_WALL = "wall";
-    private static final String MAP_PLAYER = "player";
     private static final String MAP_EVENTS = "events";
 
 
@@ -70,15 +69,6 @@ public class MapLoader implements Disposable {
         }
 
         return this;
-    }
-
-    public Body getPlayer() {
-        final Rectangle player = map.getLayers().get(MAP_PLAYER).getObjects().getByType(RectangleMapObject.class).get(0).getRectangle();
-
-        return ShapeFactory.createRectangle(
-                new Vector2(player.getX() + player.getWidth() / 2, player.getY() + player.getHeight() / 2),
-                new Vector2(player.getWidth() / 2, player.getHeight() / 2),
-                BodyDef.BodyType.DynamicBody, world, 0.4f, false);
     }
 
     public ArrayList<MapObject> getWallList() {

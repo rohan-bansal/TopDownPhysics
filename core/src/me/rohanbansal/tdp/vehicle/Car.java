@@ -74,6 +74,8 @@ public class Car extends BodyHolder {
 
         createWheels(properties.getWorld(), properties.getWheelDrive());
         getBody().setUserData(this);
+
+        getBody().setTransform(getBody().getPosition().x, getBody().getPosition().y, properties.getAngle());
     }
 
     private static Body createBody(Vector2 position, World world, float density) {
@@ -203,6 +205,10 @@ public class Car extends BodyHolder {
             setTurnDirection(Direction.TURN_RIGHT);
         } else {
             setTurnDirection(Direction.TURN_NONE);
+        }
+
+        if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
+            Gdx.app.log(getBody().getPosition().x + "", getBody().getPosition().y + "");
         }
 
     }

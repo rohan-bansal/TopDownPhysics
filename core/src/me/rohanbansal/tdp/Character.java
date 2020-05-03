@@ -34,7 +34,7 @@ public class Character extends BodyHolder {
     private AtlasRegion currentFrame = null;
 
     public Character(final Vector2 position, final World world) {
-        super(position, new Vector2(SIZE.x / 2, SIZE.y / 2), BodyDef.BodyType.DynamicBody, world, 0.8f, false, -1);
+        super(position.scl(PPM), new Vector2(SIZE.x / 2, SIZE.y / 2), BodyDef.BodyType.DynamicBody, world, 0.8f, false, -1);
 
         getBody().setFixedRotation(true);
         getBody().setUserData(this);
