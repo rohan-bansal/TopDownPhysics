@@ -8,6 +8,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import me.rohanbansal.tdp.Character;
@@ -16,7 +17,6 @@ import me.rohanbansal.tdp.events.EventManager;
 import me.rohanbansal.tdp.tools.CameraController;
 import me.rohanbansal.tdp.tools.MapLoader;
 import me.rohanbansal.tdp.tools.ModifiedShapeRenderer;
-import me.rohanbansal.tdp.vehicle.Car;
 import me.rohanbansal.tdp.vehicle.CarManager;
 
 import static me.rohanbansal.tdp.Constants.GRAVITY;
@@ -49,6 +49,10 @@ public class PlayScreen implements Screen {
         tiledMapRenderer = new OrthogonalTiledMapRenderer(mapLoader.getMap(), 1/PPM);
 
         CarManager.createCar(CarManager.CarModel.MUSTANG, new Vector2(11400, 14000), world);
+        CarManager.createCar(CarManager.CarModel.AERO, new Vector2(11450, 14000), world);
+        CarManager.createCar(CarManager.CarModel.LAMBORGHINI, new Vector2(11500, 14000), world);
+        CarManager.createCar(CarManager.CarModel.RED_TRUCK, new Vector2(11550, 14000), world);
+
     }
 
     @Override
@@ -108,9 +112,9 @@ public class PlayScreen implements Screen {
 
         CarManager.update(delta, camera, renderer);
         if(!character.inCar) {
-            camera.getCamera().position.set(character.getBody().getPosition(), 0);
+            camera.getCamera().position.lerp(new Vector3(character.getBody().getPosition().x, character.getBody().getPosition().y, 0), 0.1f);
         } else {
-            camera.getCamera().position.set(character.getCar().getBody().getPosition(), 0);
+            camera.getCamera().position.lerp(new Vector3(character.getCar().getBody().getPosition().x, character.getCar().getBody().getPosition().y, 0), 0.255f);
         }
         camera.update();
 

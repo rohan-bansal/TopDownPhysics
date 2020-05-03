@@ -15,12 +15,15 @@ import com.badlogic.gdx.utils.Array;
 import me.rohanbansal.tdp.BodyHolder;
 import me.rohanbansal.tdp.Character;
 import me.rohanbansal.tdp.enums.CarType;
+import me.rohanbansal.tdp.enums.WheelType;
 import me.rohanbansal.tdp.screens.PlayScreen;
 import me.rohanbansal.tdp.tools.CameraController;
 import me.rohanbansal.tdp.enums.Direction;
 import me.rohanbansal.tdp.tools.MapLoader;
 import me.rohanbansal.tdp.tools.ModifiedShapeRenderer;
 import me.rohanbansal.tdp.tools.ShapeFactory;
+
+import java.awt.font.TextLayout;
 
 import static me.rohanbansal.tdp.Constants.*;
 
@@ -46,64 +49,45 @@ public class Car extends BodyHolder {
     public float regularMaxSpeedBackup = 0;
     private float acceleration;
 
+    private CarProperties properties;
+
     private Sprite carSprite, getIn;
     private Character prospectiveDriver = null;
     private Character driver = null;
     private boolean showGetIn = false;
 
-    public static int carID = 1;
+    public Car(CarProperties properties) {
+        super(createBody(properties.getPosition(), properties.getWorld(), properties.getDensity()));
 
-    public Car(float maxSpeed, float drift, float acceleration, CarType wheelDrive, World world, String carPath, Vector2 position) {
-        super(createBody(position, world));
+        this.properties = properties;
 
-        this.regularMaxSpeed = maxSpeed;
-        this.drift = drift;
-        this.acceleration = acceleration;
+        this.regularMaxSpeed = properties.getMaxSpeed();
+        this.drift = properties.getDrift();
+        this.acceleration = properties.getAcceleration();
 
         getBody().setLinearDamping(LINEAR_DAMPING);
 
         getBody().getFixtureList().get(0).setRestitution(RESTITUTION);
 
-        carSprite = new Sprite(new Texture(Gdx.files.internal(carPath)));
+        carSprite = new Sprite(new Texture(Gdx.files.internal(properties.getCarPath())));
         getIn = new Sprite(new Texture(Gdx.files.internal("sprites/f_key.png")));
 
-        createWheels(world, wheelDrive);
+        createWheels(properties.getWorld(), properties.getWheelDrive());
         getBody().setUserData(this);
-        carID++;
     }
 
-    private static Body createBody(Vector2 position, World world) {
+    private static Body createBody(Vector2 position, World world, float density) {
         return ShapeFactory.createRectangle(
                 new Vector2(position.x + 128 / 2, position.y + 256 / 2),
                 new Vector2(128 / 2, 256 / 2),
-                BodyDef.BodyType.DynamicBody, world, 0.4f, false);
+                BodyDef.BodyType.DynamicBody, world, density, false);
     }
 
     private void createWheels(World world, CarType wheelDrive) {
         for(int i = 0; i < 4; i++) {
-            float xOffset = 0;
-            float yOffset = 0;
+            float xOffset = properties.getWheelOffsets().get(i)[0];
+            float yOffset = properties.getWheelOffsets().get(i)[1];
 
-            switch(i) {
-                case Wheel.TOP_LEFT:
-                    xOffset = -60;
-                    yOffset = 70;
-                    break;
-                case Wheel.TOP_RIGHT:
-                    xOffset = 60;
-                    yOffset = 70;
-                    break;
-                case Wheel.BOTTOM_LEFT:
-                    xOffset = -60;
-                    yOffset = -68;
-                    break;
-                case Wheel.BOTTOM_RIGHT:
-                    xOffset = 60;
-                    yOffset = -68;
-                    break;
-                default:
-                    throw new IllegalArgumentException("Wheel number not supported. Create logic for positioning wheel with number " + i);
-            }
             boolean powered = wheelDrive == CarType.FOUR_WHEEL_DRIVE || (wheelDrive == CarType.TWO_WHEEL_DRIVE && i < 2);
 
             Wheel wheel = new Wheel(
@@ -256,8 +240,8 @@ public class Car extends BodyHolder {
 
             setDriveDirection(Direction.DRIVE_NONE);
             setTurnDirection(Direction.TURN_NONE);
-            camera.getCamera().zoom = PLAYER_ZOOM;
 
+            camera.lerpZoomTo(PLAYER_ZOOM, 0.2f);
         }
 
         if(showGetIn) {
@@ -269,7 +253,7 @@ public class Car extends BodyHolder {
                 driver = prospectiveDriver;
                 driver.setInCar(true);
                 driver.setCar(this);
-                camera.getCamera().zoom = CAR_ZOOM;
+                camera.lerpZoomTo(CAR_ZOOM, 0.1f);
             }
         }
 
