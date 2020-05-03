@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.physics.box2d.joints.PrismaticJointDef;
@@ -19,6 +20,7 @@ import me.rohanbansal.tdp.tools.CameraController;
 import me.rohanbansal.tdp.enums.Direction;
 import me.rohanbansal.tdp.tools.MapLoader;
 import me.rohanbansal.tdp.tools.ModifiedShapeRenderer;
+import me.rohanbansal.tdp.tools.ShapeFactory;
 
 import static me.rohanbansal.tdp.Constants.*;
 
@@ -51,8 +53,9 @@ public class Car extends BodyHolder {
 
     public static int carID = 1;
 
-    public Car(float maxSpeed, float drift, float acceleration, MapLoader loader, CarType wheelDrive, World world) {
-        super(loader.getPlayer());
+    public Car(float maxSpeed, float drift, float acceleration, CarType wheelDrive, World world, String carPath, Vector2 position) {
+        super(createBody(position, world));
+
         this.regularMaxSpeed = maxSpeed;
         this.drift = drift;
         this.acceleration = acceleration;
@@ -61,12 +64,19 @@ public class Car extends BodyHolder {
 
         getBody().getFixtureList().get(0).setRestitution(RESTITUTION);
 
-        carSprite = new Sprite(new Texture(Gdx.files.internal("cars/car_black_yellowstripes.png")));
+        carSprite = new Sprite(new Texture(Gdx.files.internal(carPath)));
         getIn = new Sprite(new Texture(Gdx.files.internal("sprites/f_key.png")));
 
         createWheels(world, wheelDrive);
         getBody().setUserData(this);
         carID++;
+    }
+
+    private static Body createBody(Vector2 position, World world) {
+        return ShapeFactory.createRectangle(
+                new Vector2(position.x + 128 / 2, position.y + 256 / 2),
+                new Vector2(128 / 2, 256 / 2),
+                BodyDef.BodyType.DynamicBody, world, 0.4f, false);
     }
 
     private void createWheels(World world, CarType wheelDrive) {
@@ -225,8 +235,6 @@ public class Car extends BodyHolder {
     public void update(float delta, CameraController camera, ModifiedShapeRenderer renderer) {
         super.update(delta, camera, renderer);
         processInput();
-
-        Gdx.app.log(regularMaxSpeed + "", "");
 
         for(Wheel wheel : new Array.ArrayIterator<>(allWheels)) {
             wheel.update(delta, camera, renderer);

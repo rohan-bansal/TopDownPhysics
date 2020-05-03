@@ -11,7 +11,6 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import me.rohanbansal.tdp.Character;
-import me.rohanbansal.tdp.enums.CarType;
 import me.rohanbansal.tdp.events.ContactManager;
 import me.rohanbansal.tdp.events.EventManager;
 import me.rohanbansal.tdp.tools.CameraController;
@@ -20,7 +19,8 @@ import me.rohanbansal.tdp.tools.ModifiedShapeRenderer;
 import me.rohanbansal.tdp.vehicle.Car;
 import me.rohanbansal.tdp.vehicle.CarManager;
 
-import static me.rohanbansal.tdp.Constants.*;
+import static me.rohanbansal.tdp.Constants.GRAVITY;
+import static me.rohanbansal.tdp.Constants.PPM;
 
 public class PlayScreen implements Screen {
 
@@ -29,7 +29,6 @@ public class PlayScreen implements Screen {
     private final Box2DDebugRenderer B2DR;
     private final CameraController camera;
     private final MapLoader mapLoader;
-    private final Car car1;
     private ModifiedShapeRenderer renderer = new ModifiedShapeRenderer();
     private TiledMapRenderer tiledMapRenderer;
     private EventManager eManager;
@@ -49,7 +48,7 @@ public class PlayScreen implements Screen {
         mapLoader = new MapLoader(world).loadMap();
         tiledMapRenderer = new OrthogonalTiledMapRenderer(mapLoader.getMap(), 1/PPM);
 
-        this.car1 = CarManager.createCar(80f, 0.5f, 110, mapLoader, CarType.TWO_WHEEL_DRIVE, world);
+        CarManager.createCar(CarManager.CarModel.MUSTANG, new Vector2(11400, 14000), world);
     }
 
     @Override
@@ -107,11 +106,11 @@ public class PlayScreen implements Screen {
         tiledMapRenderer.setView(camera.getCamera());
         tiledMapRenderer.render();
 
-        car1.update(delta, camera, renderer);
+        CarManager.update(delta, camera, renderer);
         if(!character.inCar) {
             camera.getCamera().position.set(character.getBody().getPosition(), 0);
         } else {
-            camera.getCamera().position.set(car1.getBody().getPosition(), 0);
+            camera.getCamera().position.set(character.getCar().getBody().getPosition(), 0);
         }
         camera.update();
 
