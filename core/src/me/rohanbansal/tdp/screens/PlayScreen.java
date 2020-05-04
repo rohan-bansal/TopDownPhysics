@@ -44,9 +44,9 @@ public class PlayScreen implements Screen {
         mapLoader = new MapLoader(world).loadMap();
         tiledMapRenderer = new OrthogonalTiledMapRenderer(mapLoader.getMap(), 1/PPM);
 
-        CarManager.createCar(CarManager.CarModel.MUSTANG, new Vector2(114, 140), 0, world);
-        CarManager.createCar(CarManager.CarModel.AERO, new Vector2(114, 140), 0, world);
-        CarManager.createCar(CarManager.CarModel.LAMBORGHINI, new Vector2(390.5f, 371.5f), 90, world);
+        CarManager.createCar(CarManager.CarModel.MUSTANG, new Vector2(390.5f, 386.5f), 90.25f, world);
+        CarManager.createCar(CarManager.CarModel.AERO, new Vector2(390.5f, 379f), 90.25f, world);
+        CarManager.createCar(CarManager.CarModel.LAMBORGHINI, new Vector2(390.5f, 371.5f), 90.25f, world);
         CarManager.createCar(CarManager.CarModel.RED_TRUCK, new Vector2(380.25f, 356.4f), 0, world);
         CarManager.createCar(CarManager.CarModel.FORMULA_BLUE, new Vector2(340.15f, 417.8f), 0, world);
 

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="left-down" compressionlevel="0" width="400" height="250" tilewidth="128" tileheight="128" infinite="0" nextlayerid="10" nextobjectid="507">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="left-down" compressionlevel="0" width="400" height="250" tilewidth="128" tileheight="128" infinite="0" nextlayerid="10" nextobjectid="509">
  <tileset firstgid="1" source="racetrack128.tsx"/>
  <tileset firstgid="3905" name="racetrackkenney" tilewidth="128" tileheight="128" tilecount="324" columns="18">
   <image source="spritesheet_tiles.png" width="2304" height="2304"/>
@@ -107,11 +107,12 @@
   <object id="502" x="16776" y="10500" width="788" height="36"/>
   <object id="503" x="16776" y="10504" width="36" height="3960"/>
   <object id="504" x="16768" y="14440" width="3200" height="24"/>
-  <object id="505" x="19968" y="14468" width="36" height="3976" rotation="180"/>
   <object id="506" x="18396" y="10492" width="1572" height="32"/>
+  <object id="508" x="19928" y="10508" width="44" height="3972"/>
  </objectgroup>
  <objectgroup id="9" name="events">
   <object id="440" name="pit-speed-trigger" x="13119.2" y="13336.1" width="885.939" height="166.667"/>
   <object id="442" name="pit-speed-trigger" x="12728" y="11688" width="778" height="136"/>
+  <object id="507" name="pit-speed-trigger" x="17590.4" y="10347" width="776.848" height="166.667"/>
  </objectgroup>
 </map>
