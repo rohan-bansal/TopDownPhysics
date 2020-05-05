@@ -47,21 +47,9 @@ public class PlayScreen implements Screen {
         character = new Character(new Vector2(380, 370), world);
 
         mapLoader = new MapLoader(world).loadMap();
+
         mManager = new MapManager(mapLoader);
-
-        CarManager.createCar(CarManager.CarModel.MUSTANG, new Vector2(390.5f, 386.5f), 90.25f, world);
-        CarManager.createCar(CarManager.CarModel.AERO, new Vector2(390.5f, 379f), 90.25f, world);
-        CarManager.createCar(CarManager.CarModel.LAMBORGHINI, new Vector2(390.5f, 371.5f), 90.25f, world);
-
-        CarManager.createCar(CarManager.CarModel.RED_TRUCK, new Vector2(380.25f, 356.4f), 0, world);
-        CarManager.createCar(CarManager.CarModel.PICKUP_TRUCK, new Vector2(372.5f, 356.4f), 0, world);
-
-        CarManager.createCar(CarManager.CarModel.FORMULA_BLUE, new Vector2(340.15f, 417.8f), 0, world);
-        CarManager.createCar(CarManager.CarModel.FORMULA_ORANGE, new Vector2(340.15f, 410), 0, world);
-        CarManager.createCar(CarManager.CarModel.FORMULA_RED, new Vector2(340.15f, 402.2f), 0, world);
-        CarManager.createCar(CarManager.CarModel.FORMULA_PINK, new Vector2(340.15f, 394.55f), 0, world);
-        CarManager.createCar(CarManager.CarModel.FORMULA_LIME, new Vector2(340.15f, 386.8f), 0, world);
-        CarManager.createCar(CarManager.CarModel.FORMULA_GREEN, new Vector2(340.15f, 379f), 0, world);
+        mManager.loadCars(world);
     }
 
     @Override

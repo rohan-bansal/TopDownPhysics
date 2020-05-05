@@ -23,11 +23,12 @@ public class MapLoader implements Disposable {
 
     private static final String MAP_WALL = "wall";
     private static final String MAP_EVENTS = "events";
-
+    private static final String CARS = "cars";
 
     private World world;
     private TiledMap map;
     private ArrayList<MapObject> wallList = new ArrayList<>();
+    private ArrayList<RectangleMapObject> carRects = new ArrayList<>();
     private static ArrayList<EventSensor> eventRects = new ArrayList<>();
 
     public MapLoader(World world) {
@@ -40,6 +41,7 @@ public class MapLoader implements Disposable {
         Array<RectangleMapObject> walls = map.getLayers().get(MAP_WALL).getObjects().getByType(RectangleMapObject.class);
         Array<RectangleMapObject> events = map.getLayers().get(MAP_EVENTS).getObjects().getByType(RectangleMapObject.class);
         Array<PolygonMapObject> wallsCurved = map.getLayers().get(MAP_WALL).getObjects().getByType(PolygonMapObject.class);
+        Array<RectangleMapObject> cars = map.getLayers().get(CARS).getObjects().getByType(RectangleMapObject.class);
 
         for(RectangleMapObject wall : new Array.ArrayIterator<>(walls)) {
             Rectangle rect = wall.getRectangle();
@@ -55,6 +57,11 @@ public class MapLoader implements Disposable {
             ShapeFactory.createWallPolygon(wallCurved, world);
         }
 
+        for(RectangleMapObject rect: new Array.ArrayIterator<>(cars)) {
+            carRects.add(rect);
+        }
+
+
         for(RectangleMapObject event : new Array.ArrayIterator<>(events)) {
             Rectangle rect = event.getRectangle();
             EventSensor sensor = new EventSensor(new Rectangle(rect.getX() / PPM, rect.getY() / PPM, rect.getWidth() / PPM, rect.getHeight() / PPM), event.getName());
@@ -66,6 +73,10 @@ public class MapLoader implements Disposable {
         }
 
         return this;
+    }
+
+    public ArrayList<RectangleMapObject> getCarRects() {
+        return carRects;
     }
 
     public ArrayList<MapObject> getWallList() {

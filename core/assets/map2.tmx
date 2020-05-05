@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="left-down" compressionlevel="0" width="400" height="250" tilewidth="128" tileheight="128" infinite="0" nextlayerid="10" nextobjectid="509">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="left-down" compressionlevel="0" width="400" height="250" tilewidth="128" tileheight="128" infinite="0" nextlayerid="11" nextobjectid="521">
  <tileset firstgid="1" source="racetrack128.tsx"/>
  <tileset firstgid="3905" name="racetrackkenney" tilewidth="128" tileheight="128" tilecount="324" columns="18">
   <image source="spritesheet_tiles.png" width="2304" height="2304"/>
@@ -109,6 +109,19 @@
   <object id="504" x="16768" y="14440" width="3200" height="24"/>
   <object id="506" x="18396" y="10492" width="1572" height="32"/>
   <object id="508" x="19928" y="10508" width="44" height="3972"/>
+ </objectgroup>
+ <objectgroup id="10" name="cars">
+  <object id="509" name="formula_blue" type="car-up" x="17022" y="10872" width="128" height="256"/>
+  <object id="511" name="formula_orange" type="car-up" x="17020" y="11250" width="128" height="256"/>
+  <object id="512" name="formula_green" type="car-up" x="17022" y="11648" width="128" height="256"/>
+  <object id="513" name="formula_lime" type="car-up" x="17024" y="12030" width="128" height="256"/>
+  <object id="514" name="formula_pink" type="car-up" x="17020" y="12416" width="128" height="256"/>
+  <object id="515" name="formula_red" type="car-up" x="17024" y="12798" width="128" height="256"/>
+  <object id="516" name="red_truck" type="car-up" x="18626.9" y="13929.6" width="128" height="256"/>
+  <object id="517" name="pickup_truck" type="car-up" x="18242.1" y="13926.5" width="128" height="256"/>
+  <object id="518" name="lamborghini" type="car-left" x="19517.8" y="12926.5" width="256" height="128"/>
+  <object id="519" name="aero" type="car-left" x="19511.4" y="12545.1" width="256" height="128"/>
+  <object id="520" name="mustang" type="car-left" x="19526.5" y="12160.2" width="256" height="128"/>
  </objectgroup>
  <objectgroup id="9" name="events">
   <object id="440" name="pit-speed-trigger" x="13119.2" y="13336.1" width="885.939" height="166.667"/>
