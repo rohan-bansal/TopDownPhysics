@@ -40,6 +40,9 @@ public class PlayScreen implements Screen {
         world.setContactListener(new ContactManager());
         B2DR = new Box2DDebugRenderer();
         camera = new CameraController();
+        camera.getCamera().position.set(500, 500, 0);
+        camera.getCamera().zoom = 10f;
+        camera.lerpZoomTo(PLAYER_ZOOM, 0.07f);
 
         character = new Character(new Vector2(380, 370), world);
 
