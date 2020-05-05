@@ -1,20 +1,22 @@
 package me.rohanbansal.tdp.screens;
 
+import box2dLight.PointLight;
+import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.maps.tiled.TiledMapRenderer;
-import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
 import com.badlogic.gdx.physics.box2d.World;
 import me.rohanbansal.tdp.Character;
 import me.rohanbansal.tdp.events.ContactManager;
+import me.rohanbansal.tdp.map.MapLoader;
+import me.rohanbansal.tdp.map.MapManager;
 import me.rohanbansal.tdp.tools.CameraController;
-import me.rohanbansal.tdp.tools.MapLoader;
 import me.rohanbansal.tdp.tools.ModifiedShapeRenderer;
 import me.rohanbansal.tdp.vehicle.CarManager;
 
@@ -28,7 +30,7 @@ public class PlayScreen implements Screen {
     private final CameraController camera;
     private final MapLoader mapLoader;
     private ModifiedShapeRenderer renderer = new ModifiedShapeRenderer();
-    private TiledMapRenderer tiledMapRenderer;
+    private MapManager mManager;
     private Character character;
 
     private boolean renderingDebug = false, renderingVelocities = false;
@@ -42,14 +44,21 @@ public class PlayScreen implements Screen {
         character = new Character(new Vector2(380, 370), world);
 
         mapLoader = new MapLoader(world).loadMap();
-        tiledMapRenderer = new OrthogonalTiledMapRenderer(mapLoader.getMap(), 1/PPM);
+        mManager = new MapManager(mapLoader);
 
         CarManager.createCar(CarManager.CarModel.MUSTANG, new Vector2(390.5f, 386.5f), 90.25f, world);
         CarManager.createCar(CarManager.CarModel.AERO, new Vector2(390.5f, 379f), 90.25f, world);
         CarManager.createCar(CarManager.CarModel.LAMBORGHINI, new Vector2(390.5f, 371.5f), 90.25f, world);
-        CarManager.createCar(CarManager.CarModel.RED_TRUCK, new Vector2(380.25f, 356.4f), 0, world);
-        CarManager.createCar(CarManager.CarModel.FORMULA_BLUE, new Vector2(340.15f, 417.8f), 0, world);
 
+        CarManager.createCar(CarManager.CarModel.RED_TRUCK, new Vector2(380.25f, 356.4f), 0, world);
+        CarManager.createCar(CarManager.CarModel.PICKUP_TRUCK, new Vector2(372.5f, 356.4f), 0, world);
+
+        CarManager.createCar(CarManager.CarModel.FORMULA_BLUE, new Vector2(340.15f, 417.8f), 0, world);
+        CarManager.createCar(CarManager.CarModel.FORMULA_ORANGE, new Vector2(340.15f, 410), 0, world);
+        CarManager.createCar(CarManager.CarModel.FORMULA_RED, new Vector2(340.15f, 402.2f), 0, world);
+        CarManager.createCar(CarManager.CarModel.FORMULA_PINK, new Vector2(340.15f, 394.55f), 0, world);
+        CarManager.createCar(CarManager.CarModel.FORMULA_LIME, new Vector2(340.15f, 386.8f), 0, world);
+        CarManager.createCar(CarManager.CarModel.FORMULA_GREEN, new Vector2(340.15f, 379f), 0, world);
     }
 
     @Override
@@ -61,6 +70,7 @@ public class PlayScreen implements Screen {
     public void render(float delta) {
         Gdx.gl.glClearColor(12/255f, 114/255f, 80/255f, 1);
         Gdx.gl.glClear(GL20.GL_COLOR_BUFFER_BIT);
+
 
         handleInput();
         update(delta);
@@ -118,18 +128,18 @@ public class PlayScreen implements Screen {
     }
 
     private void update(float delta) {
-        tiledMapRenderer.setView(camera.getCamera());
-        tiledMapRenderer.render();
 
+        mManager.update(camera);
         CarManager.update(delta, camera, renderer);
+        camera.update();
+        world.step(delta, 6, 2);
+
+        // update cam positions
         if(!character.inCar) {
             camera.getCamera().position.lerp(new Vector3(character.getBody().getPosition().x, character.getBody().getPosition().y, 0), 0.1f);
         } else {
             camera.getCamera().position.lerp(new Vector3(character.getCar().getBody().getPosition().x, character.getCar().getBody().getPosition().y, 0), 0.255f);
         }
-        camera.update();
-
-        world.step(delta, 6, 2);
     }
 
     @Override
@@ -158,5 +168,6 @@ public class PlayScreen implements Screen {
         B2DR.dispose();
         world.dispose();
         mapLoader.dispose();
+        character.dispose();
     }
 }

@@ -10,12 +10,13 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.utils.Disposable;
 import me.rohanbansal.tdp.tools.CameraController;
 import me.rohanbansal.tdp.vehicle.Car;
 
 import static me.rohanbansal.tdp.Constants.PPM;
 
-public class Character extends BodyHolder {
+public class Character extends BodyHolder implements Disposable {
 
     private static final float FRAME_DURATION = 0.25f;
     private static final float MOVE_SPEED = 0.1f;
@@ -118,5 +119,10 @@ public class Character extends BodyHolder {
             return false;
         }
         return false;
+    }
+
+    @Override
+    public void dispose() {
+        atlas.dispose();
     }
 }

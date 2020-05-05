@@ -2,7 +2,7 @@ package me.rohanbansal.tdp.events;
 
 import com.badlogic.gdx.physics.box2d.*;
 import me.rohanbansal.tdp.Character;
-import me.rohanbansal.tdp.tools.MapLoader;
+import me.rohanbansal.tdp.map.MapLoader;
 import me.rohanbansal.tdp.vehicle.Car;
 import me.rohanbansal.tdp.vehicle.CarManager;
 

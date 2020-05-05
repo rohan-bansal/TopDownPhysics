@@ -15,15 +15,11 @@ import com.badlogic.gdx.utils.Array;
 import me.rohanbansal.tdp.BodyHolder;
 import me.rohanbansal.tdp.Character;
 import me.rohanbansal.tdp.enums.CarType;
-import me.rohanbansal.tdp.enums.WheelType;
 import me.rohanbansal.tdp.screens.PlayScreen;
 import me.rohanbansal.tdp.tools.CameraController;
 import me.rohanbansal.tdp.enums.Direction;
-import me.rohanbansal.tdp.tools.MapLoader;
 import me.rohanbansal.tdp.tools.ModifiedShapeRenderer;
 import me.rohanbansal.tdp.tools.ShapeFactory;
-
-import java.awt.font.TextLayout;
 
 import static me.rohanbansal.tdp.Constants.*;
 
@@ -43,11 +39,9 @@ public class Car extends BodyHolder {
     private float currentWheelAngle = 0;
     private Array<Wheel> allWheels = new Array<>();
     private Array<Wheel> revolvingWheels = new Array<>();
-    private float drift;
     private float currentMaxSpeed;
     private float regularMaxSpeed;
     public float regularMaxSpeedBackup = 0;
-    private float acceleration;
 
     private CarProperties properties;
 
@@ -60,21 +54,16 @@ public class Car extends BodyHolder {
         super(createBody(properties.getPosition(), properties.getWorld(), properties.getDensity()));
 
         this.properties = properties;
-
         this.regularMaxSpeed = properties.getMaxSpeed();
-        this.drift = properties.getDrift();
-        this.acceleration = properties.getAcceleration();
-
-        getBody().setLinearDamping(LINEAR_DAMPING);
-
-        getBody().getFixtureList().get(0).setRestitution(RESTITUTION);
 
         carSprite = new Sprite(new Texture(Gdx.files.internal(properties.getCarPath())));
         getIn = new Sprite(new Texture(Gdx.files.internal("sprites/f_key.png")));
 
         createWheels(properties.getWorld(), properties.getWheelDrive());
-        getBody().setUserData(this);
 
+        getBody().setUserData(this);
+        getBody().setLinearDamping(LINEAR_DAMPING);
+        getBody().getFixtureList().get(0).setRestitution(RESTITUTION);
         getBody().setTransform(getBody().getPosition().x, getBody().getPosition().y, properties.getAngle());
     }
 
@@ -115,7 +104,7 @@ public class Car extends BodyHolder {
             if(i < 2) {
                 revolvingWheels.add(wheel);
             }
-            wheel.setDrift(drift);
+            wheel.setDrift(properties.getDrift());
         }
 
     }
@@ -142,14 +131,14 @@ public class Car extends BodyHolder {
         }
 
         if (driveDirection == Direction.DRIVE_FORWARD) {
-            baseVector.set(0, acceleration);
+            baseVector.set(0, properties.getAcceleration());
         } else if (driveDirection == Direction.DRIVE_BACKWARD) {
             if(direction() == Direction.DRIVE_BACKWARD) {
-                baseVector.set(0, -acceleration * 0.7f);
+                baseVector.set(0, -properties.getAcceleration() * 0.7f);
             } else if(direction() == Direction.DRIVE_FORWARD) {
-                baseVector.set(0, -acceleration * 1.3f);
+                baseVector.set(0, -properties.getAcceleration() * 1.3f);
             } else {
-                baseVector.set(0, -acceleration);
+                baseVector.set(0, -properties.getAcceleration());
             }
         }
 
