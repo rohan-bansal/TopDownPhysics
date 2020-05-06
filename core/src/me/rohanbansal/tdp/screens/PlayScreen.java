@@ -33,13 +33,15 @@ public class PlayScreen implements Screen {
     private MapManager mManager;
     private Character character;
 
+    public static final CameraController HUDcamera = new CameraController(false);
+
     private boolean renderingDebug = false, renderingVelocities = false;
 
     public PlayScreen() {
         world = new World(GRAVITY, false);
         world.setContactListener(new ContactManager());
         B2DR = new Box2DDebugRenderer();
-        camera = new CameraController();
+        camera = new CameraController(true);
         camera.getCamera().position.set(500, 500, 0);
         camera.getCamera().zoom = 10f;
         camera.lerpZoomTo(PLAYER_ZOOM, 0.07f);
@@ -120,6 +122,7 @@ public class PlayScreen implements Screen {
 
     private void update(float delta) {
 
+        HUDcamera.update();
         mManager.update(camera);
         CarManager.update(delta, camera, renderer);
         camera.update();

@@ -17,10 +17,14 @@ public class CameraController {
     private float lerpValue = 0f;
     private float lerpSpeed = 0f;
 
-    public CameraController() {
+    public CameraController(boolean main) {
         camera = new OrthographicCamera();
-        camera.zoom = PLAYER_ZOOM;
-        viewport = new FitViewport(Gdx.graphics.getWidth() / PPM, Gdx.graphics.getHeight() / PPM, camera);
+        if(main) {
+            camera.zoom = PLAYER_ZOOM;
+            viewport = new FitViewport(Gdx.graphics.getWidth() / PPM, Gdx.graphics.getHeight() / PPM, camera);
+        } else {
+            camera.setToOrtho(false, Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        }
     }
 
     public void update() {

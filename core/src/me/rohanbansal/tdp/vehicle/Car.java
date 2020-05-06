@@ -44,6 +44,7 @@ public class Car extends BodyHolder {
     public float regularMaxSpeedBackup = 0;
 
     private CarProperties properties;
+    private CarHUD carHUD;
 
     private Sprite carSprite, getIn;
     private Character prospectiveDriver = null;
@@ -60,6 +61,7 @@ public class Car extends BodyHolder {
         getIn = new Sprite(new Texture(Gdx.files.internal("sprites/f_key.png")));
 
         createWheels(properties.getWorld(), properties.getWheelDrive());
+        carHUD = new CarHUD(this);
 
         getBody().setUserData(this);
         getBody().setLinearDamping(LINEAR_DAMPING);
@@ -214,6 +216,8 @@ public class Car extends BodyHolder {
     public void update(float delta, CameraController camera, ModifiedShapeRenderer renderer) {
         super.update(delta, camera, renderer);
         processInput();
+
+        if(driver != null) carHUD.render();
 
         for(Wheel wheel : new Array.ArrayIterator<>(allWheels)) {
             wheel.update(delta, camera, renderer);
