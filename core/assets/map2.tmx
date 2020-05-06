@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="left-down" compressionlevel="0" width="400" height="250" tilewidth="128" tileheight="128" infinite="0" nextlayerid="11" nextobjectid="521">
+<map version="1.2" tiledversion="1.3.1" orientation="orthogonal" renderorder="left-down" compressionlevel="0" width="400" height="250" tilewidth="128" tileheight="128" infinite="0" nextlayerid="12" nextobjectid="525">
  <tileset firstgid="1" source="racetrack128.tsx"/>
  <tileset firstgid="3905" name="racetrackkenney" tilewidth="128" tileheight="128" tilecount="324" columns="18">
   <image source="spritesheet_tiles.png" width="2304" height="2304"/>
@@ -42,7 +42,7 @@
   <object id="429" x="13576" y="5760" width="2304" height="40"/>
   <object id="430" x="15840" y="5808" width="56" height="3408"/>
   <object id="431" x="14056" y="12632" width="1816" height="72"/>
-  <object id="433" x="14456" y="6632" width="536" height="5152"/>
+  <object id="433" x="14449" y="6642.54" width="536" height="5152"/>
   <object id="435" x="12720" y="12624" width="360" height="48"/>
   <object id="436" x="14064" y="12712" width="64" height="4104"/>
   <object id="437" x="12984" y="12696" width="80" height="3304"/>
@@ -109,6 +109,11 @@
   <object id="504" x="16768" y="14440" width="3200" height="24"/>
   <object id="506" x="18396" y="10492" width="1572" height="32"/>
   <object id="508" x="19928" y="10508" width="44" height="3972"/>
+ </objectgroup>
+ <objectgroup id="11" name="stations">
+  <object id="521" name="station_1" type="gas_station" x="14783.8" y="6906.85" width="128" height="256"/>
+  <object id="523" name="station_2" type="gas_station" x="14787.1" y="7681.75" width="128" height="256"/>
+  <object id="524" name="station_3" type="gas_station" x="14787.6" y="8455.1" width="128" height="256"/>
  </objectgroup>
  <objectgroup id="10" name="cars">
   <object id="509" name="formula_blue" type="car-up" x="17022" y="10872" width="128" height="256"/>

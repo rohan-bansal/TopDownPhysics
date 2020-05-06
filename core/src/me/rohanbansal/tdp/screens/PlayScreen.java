@@ -1,11 +1,8 @@
 package me.rohanbansal.tdp.screens;
 
-import box2dLight.PointLight;
-import box2dLight.RayHandler;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
-import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Vector2;
@@ -16,6 +13,7 @@ import me.rohanbansal.tdp.Character;
 import me.rohanbansal.tdp.events.ContactManager;
 import me.rohanbansal.tdp.map.MapLoader;
 import me.rohanbansal.tdp.map.MapManager;
+import me.rohanbansal.tdp.stations.StationManager;
 import me.rohanbansal.tdp.tools.CameraController;
 import me.rohanbansal.tdp.tools.ModifiedShapeRenderer;
 import me.rohanbansal.tdp.vehicle.CarManager;
@@ -31,6 +29,7 @@ public class PlayScreen implements Screen {
     private final MapLoader mapLoader;
     private ModifiedShapeRenderer renderer = new ModifiedShapeRenderer();
     private MapManager mManager;
+    private StationManager stationManager;
     private Character character;
 
     public static final CameraController HUDcamera = new CameraController(false);
@@ -52,6 +51,9 @@ public class PlayScreen implements Screen {
 
         mManager = new MapManager(mapLoader);
         mManager.loadCars(world);
+
+        stationManager = new StationManager(mapLoader);
+        stationManager.generateStations();
     }
 
     @Override
@@ -125,6 +127,7 @@ public class PlayScreen implements Screen {
         HUDcamera.update();
         mManager.update(camera);
         CarManager.update(delta, camera, renderer);
+        stationManager.update(camera);
         camera.update();
         world.step(delta, 6, 2);
 

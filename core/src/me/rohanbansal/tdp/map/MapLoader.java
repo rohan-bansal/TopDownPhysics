@@ -24,12 +24,14 @@ public class MapLoader implements Disposable {
     private static final String MAP_WALL = "wall";
     private static final String MAP_EVENTS = "events";
     private static final String CARS = "cars";
+    public static final String STATIONS = "stations";
 
     private World world;
     private TiledMap map;
     private ArrayList<MapObject> wallList = new ArrayList<>();
     private ArrayList<RectangleMapObject> carRects = new ArrayList<>();
     private static ArrayList<EventSensor> eventRects = new ArrayList<>();
+    private static ArrayList<RectangleMapObject> gasStations = new ArrayList<>();
 
     public MapLoader(World world) {
         this.world = world;
@@ -42,6 +44,8 @@ public class MapLoader implements Disposable {
         Array<RectangleMapObject> events = map.getLayers().get(MAP_EVENTS).getObjects().getByType(RectangleMapObject.class);
         Array<PolygonMapObject> wallsCurved = map.getLayers().get(MAP_WALL).getObjects().getByType(PolygonMapObject.class);
         Array<RectangleMapObject> cars = map.getLayers().get(CARS).getObjects().getByType(RectangleMapObject.class);
+        Array<RectangleMapObject> stations = map.getLayers().get(STATIONS).getObjects().getByType(RectangleMapObject.class);
+
 
         for(RectangleMapObject wall : new Array.ArrayIterator<>(walls)) {
             Rectangle rect = wall.getRectangle();
@@ -61,6 +65,9 @@ public class MapLoader implements Disposable {
             carRects.add(rect);
         }
 
+        for(RectangleMapObject obj : new Array.ArrayIterator<>(stations)) {
+            gasStations.add(obj);
+        }
 
         for(RectangleMapObject event : new Array.ArrayIterator<>(events)) {
             Rectangle rect = event.getRectangle();
@@ -73,6 +80,10 @@ public class MapLoader implements Disposable {
         }
 
         return this;
+    }
+
+    public ArrayList<RectangleMapObject> getGasStations() {
+        return gasStations;
     }
 
     public ArrayList<RectangleMapObject> getCarRects() {
