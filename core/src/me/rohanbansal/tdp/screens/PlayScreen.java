@@ -126,8 +126,8 @@ public class PlayScreen implements Screen {
 
         HUDcamera.update();
         mManager.update(camera);
-        CarManager.update(delta, camera, renderer);
         stationManager.update(camera);
+        CarManager.update(delta, camera, renderer);
         camera.update();
         world.step(delta, 6, 2);
 
