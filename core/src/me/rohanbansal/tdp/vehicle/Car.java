@@ -217,7 +217,7 @@ public class Car extends BodyHolder {
         super.update(delta, camera, renderer);
         processInput();
 
-        if(driver != null) carHUD.render();
+        if(driver != null) carHUD.render(renderer, camera);
 
         for(Wheel wheel : new Array.ArrayIterator<>(allWheels)) {
             wheel.update(delta, camera, renderer);

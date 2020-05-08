@@ -9,6 +9,8 @@ import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.math.Rectangle;
 import me.rohanbansal.tdp.screens.PlayScreen;
+import me.rohanbansal.tdp.tools.CameraController;
+import me.rohanbansal.tdp.tools.ModifiedShapeRenderer;
 
 import java.util.ArrayList;
 
@@ -18,7 +20,7 @@ public class CarHUD {
     private SpriteBatch batch;
     private BitmapFont drawer = new BitmapFont(Gdx.files.internal("fonts/ari2.fnt"));
 
-    private Sprite z_key, x_key, c_key;
+    private Sprite z_key, x_key, c_key, speedometer_dial, speedometer_needle;
     private Rectangle zO_key, xO_key, cO_key;
     private ArrayList<Sprite> keys;
 
@@ -37,6 +39,13 @@ public class CarHUD {
         c_key = new Sprite(new Texture("sprites/c_key.png"));
         keys.add(c_key);
 
+        speedometer_dial = new Sprite(new Texture(("sprites/green_speedometer.png")));
+        speedometer_dial.setPosition(10, 0);
+
+        speedometer_needle = new Sprite(new Texture(("sprites/needle.png")));
+        speedometer_needle.setOrigin(13, 13);
+        speedometer_needle.setPosition(100, 55);
+
         z_key.setPosition(Gdx.graphics.getWidth() - 25, 30);
         x_key.setPosition(Gdx.graphics.getWidth() - 25, 60);
         c_key.setPosition(Gdx.graphics.getWidth() - 25, 90);
@@ -49,12 +58,15 @@ public class CarHUD {
         cO_key = new Rectangle(c_key.getX(), c_key.getY(), c_key.getWidth(), c_key.getHeight());
     }
 
-    public void render() {
+    public void render(ModifiedShapeRenderer renderer, CameraController camera) {
 
         batch.setProjectionMatrix(PlayScreen.HUDcamera.getCamera().combined);
         batch.setBlendFunction(GL20.GL_SRC_ALPHA, GL20.GL_ONE_MINUS_SRC_ALPHA);
         batch.enableBlending();
         batch.begin();
+
+        speedometer_dial.draw(batch);
+        speedometer_needle.draw(batch);
 
         if(car.getBody().getLinearVelocity().len() < 20) {
             for(Sprite key : keys) {
@@ -92,5 +104,8 @@ public class CarHUD {
         drawer.draw(batch, "Reset Zoom", x_key.getX() + 27, x_key.getY() + 12);
 
         batch.end();
+
+        // THE MAGIC ONE LINER
+        speedometer_needle.setRotation(-175 - car.getBody().getLinearVelocity().len());
     }
 }
