@@ -7,6 +7,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
+import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
 import com.badlogic.gdx.physics.box2d.World;
 import com.badlogic.gdx.utils.Array;
@@ -50,15 +51,17 @@ public class MapLoader implements Disposable {
         for(RectangleMapObject wall : new Array.ArrayIterator<>(walls)) {
             Rectangle rect = wall.getRectangle();
             wallList.add(wall);
-            ShapeFactory.createRectangle(
+            Body b = ShapeFactory.createRectangle(
                     new Vector2(rect.getX() + rect.getWidth() / 2, rect.getY() + rect.getHeight() / 2),
                     new Vector2(rect.getWidth() / 2, rect.getHeight() / 2),
                     BodyDef.BodyType.StaticBody, world, 1f, false);
+            b.setUserData("Wall");
         }
 
         for(PolygonMapObject wallCurved: new Array.ArrayIterator<>(wallsCurved)) {
             wallList.add(wallCurved);
-            ShapeFactory.createWallPolygon(wallCurved, world);
+            Body b = ShapeFactory.createWallPolygon(wallCurved, world);
+            b.setUserData("Wall");
         }
 
         for(RectangleMapObject rect: new Array.ArrayIterator<>(cars)) {

@@ -18,6 +18,7 @@ import me.rohanbansal.tdp.enums.CarType;
 import me.rohanbansal.tdp.screens.PlayScreen;
 import me.rohanbansal.tdp.tools.CameraController;
 import me.rohanbansal.tdp.enums.Direction;
+import me.rohanbansal.tdp.tools.EffectFactory;
 import me.rohanbansal.tdp.tools.ModifiedShapeRenderer;
 import me.rohanbansal.tdp.tools.ShapeFactory;
 
@@ -50,12 +51,16 @@ public class Car extends BodyHolder {
     private Character prospectiveDriver = null;
     private Character driver = null;
     private boolean showGetIn = false;
+    private float durability;
+    private float maxDurability;
 
     public Car(CarProperties properties) {
         super(createBody(properties.getPosition(), properties.getWorld(), properties.getDensity()));
 
         this.properties = properties;
         this.regularMaxSpeed = properties.getMaxSpeed();
+        this.maxDurability = properties.getDurability();
+        this.durability = maxDurability;
 
         carSprite = new Sprite(new Texture(Gdx.files.internal(properties.getCarPath())));
         getIn = new Sprite(new Texture(Gdx.files.internal("sprites/f_key.png")));
@@ -109,6 +114,22 @@ public class Car extends BodyHolder {
             wheel.setDrift(properties.getDrift());
         }
 
+    }
+
+    public float getDurability() {
+        return durability;
+    }
+
+    public float getMaxDurability() {
+        return maxDurability;
+    }
+
+    public void setDurability(float durability) {
+        this.durability = durability;
+    }
+
+    public float getMaxSpeed() {
+        return regularMaxSpeed;
     }
 
     private void processInput() {
@@ -217,6 +238,12 @@ public class Car extends BodyHolder {
         super.update(delta, camera, renderer);
         processInput();
 
+        if(durability <= 0) {
+            EffectFactory.createEffect(EffectFactory.EffectType.EXPLOSION, getBody().getPosition(), false, 4f);
+            removePlayerFromCar(camera);
+            CarManager.deleteCar(this);
+        }
+
         if(driver != null) carHUD.render(renderer, camera);
 
         for(Wheel wheel : new Array.ArrayIterator<>(allWheels)) {
@@ -232,15 +259,7 @@ public class Car extends BodyHolder {
         carSprite.draw(PlayScreen.batch);
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.F) && this.driver != null && this.driver.getCar() == this) {
-            driver.setInCar(false);
-            driver.setCar(null);
-            driver.getBody().setTransform(getBody().getPosition().x, getBody().getPosition().y, 0);
-            driver = null;
-
-            setDriveDirection(Direction.DRIVE_NONE);
-            setTurnDirection(Direction.TURN_NONE);
-
-            camera.lerpZoomTo(PLAYER_ZOOM, 0.2f);
+            removePlayerFromCar(camera);
         }
 
         if(showGetIn) {
@@ -258,5 +277,17 @@ public class Car extends BodyHolder {
 
 
         PlayScreen.batch.end();
+    }
+
+    private void removePlayerFromCar(CameraController camera) {
+        driver.setInCar(false);
+        driver.setCar(null);
+        driver.getBody().setTransform(getBody().getPosition().x, getBody().getPosition().y, 0);
+        driver = null;
+
+        setDriveDirection(Direction.DRIVE_NONE);
+        setTurnDirection(Direction.TURN_NONE);
+
+        camera.lerpZoomTo(PLAYER_ZOOM, 0.2f);
     }
 }

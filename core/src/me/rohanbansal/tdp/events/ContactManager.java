@@ -20,6 +20,12 @@ public class ContactManager implements ContactListener {
             if(Character.isPlayer(a)) {
                 car.displayGetIn((Character) a.getUserData());
             }
+            if(a.getUserData() instanceof String && ((String) a.getUserData()).equals("Wall")) {
+                if(car.getBody().getLinearVelocity().len() > car.getMaxSpeed() / 5) {
+                    car.setDurability(car.getDurability() - 1);
+                    System.out.println(car.getDurability());
+                }
+            }
         }
 
         for(EventSensor sensor : MapLoader.getEventRects()) {

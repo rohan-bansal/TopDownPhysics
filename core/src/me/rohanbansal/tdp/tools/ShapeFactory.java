@@ -30,7 +30,7 @@ public class ShapeFactory {
         return body;
     }
 
-    public static PolygonShape createWallPolygon(PolygonMapObject polygonObject, World world) {
+    public static Body createWallPolygon(PolygonMapObject polygonObject, World world) {
         PolygonShape polygon = new PolygonShape();
         float[] vertices = polygonObject.getPolygon().getTransformedVertices();
 
@@ -51,6 +51,6 @@ public class ShapeFactory {
         body.createFixture(fdef);
         polygon.dispose();
 
-        return polygon;
+        return body;
     }
 }

@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import me.rohanbansal.tdp.screens.PlayScreen;
 import me.rohanbansal.tdp.tools.CameraController;
@@ -20,7 +21,7 @@ public class CarHUD {
     private SpriteBatch batch;
     private BitmapFont drawer = new BitmapFont(Gdx.files.internal("fonts/ari2.fnt"));
 
-    private Sprite z_key, x_key, c_key, speedometer_dial, speedometer_needle;
+    private Sprite z_key, x_key, c_key, speedometer_dial, speedometer_needle, durability, triangle;
     private Rectangle zO_key, xO_key, cO_key;
     private ArrayList<Sprite> keys;
 
@@ -41,6 +42,11 @@ public class CarHUD {
 
         speedometer_dial = new Sprite(new Texture(("sprites/green_speedometer.png")));
         speedometer_dial.setPosition(10, 0);
+
+        triangle = new Sprite(new Texture("sprites/triangle.png"));
+
+        durability = new Sprite(new Texture(("sprites/durability.png")));
+        durability.setPosition(240, 30);
 
         speedometer_needle = new Sprite(new Texture(("sprites/needle.png")));
         speedometer_needle.setOrigin(13, 13);
@@ -67,6 +73,12 @@ public class CarHUD {
 
         speedometer_dial.draw(batch);
         speedometer_needle.draw(batch);
+        durability.draw(batch);
+
+        drawer.draw(batch, "Durability", 250, 20);
+        // start = 237, end = 327
+        triangle.setPosition(((car.getDurability() / car.getMaxDurability()) * 90) + 237, 40);
+        triangle.draw(batch);
 
         if(car.getBody().getLinearVelocity().len() < 20) {
             for(Sprite key : keys) {

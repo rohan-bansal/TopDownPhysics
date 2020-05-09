@@ -15,8 +15,12 @@ import me.rohanbansal.tdp.map.MapLoader;
 import me.rohanbansal.tdp.map.MapManager;
 import me.rohanbansal.tdp.stations.StationManager;
 import me.rohanbansal.tdp.tools.CameraController;
+import me.rohanbansal.tdp.tools.Effect;
+import me.rohanbansal.tdp.tools.EffectFactory;
 import me.rohanbansal.tdp.tools.ModifiedShapeRenderer;
 import me.rohanbansal.tdp.vehicle.CarManager;
+
+import java.util.ArrayList;
 
 import static me.rohanbansal.tdp.Constants.*;
 
@@ -33,6 +37,7 @@ public class PlayScreen implements Screen {
     private Character character;
 
     public static final CameraController HUDcamera = new CameraController(false);
+
 
     private boolean renderingDebug = false, renderingVelocities = false;
 
@@ -103,6 +108,8 @@ public class PlayScreen implements Screen {
 
     private void draw() {
 
+        EffectFactory.render(HUDcamera, batch);
+
         batch.setProjectionMatrix(camera.getCamera().combined);
         if(Gdx.input.isKeyJustPressed(Input.Keys.B)) {
             renderingDebug = !renderingDebug;
@@ -166,5 +173,6 @@ public class PlayScreen implements Screen {
         world.dispose();
         mapLoader.dispose();
         character.dispose();
+        EffectFactory.disposeAtlas();
     }
 }
