@@ -1,6 +1,7 @@
 package me.rohanbansal.tdp.vehicle;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
@@ -21,7 +22,7 @@ public class CarHUD {
     private SpriteBatch batch;
     private BitmapFont drawer = new BitmapFont(Gdx.files.internal("fonts/ari2.fnt"));
 
-    private Sprite z_key, x_key, c_key, speedometer_dial, speedometer_needle, durability, triangle;
+    private Sprite z_key, x_key, c_key, speedometer_dial, speedometer_needle, durability, triangle, fuel_dial, fuel_needle;
     private Rectangle zO_key, xO_key, cO_key;
     private ArrayList<Sprite> keys;
 
@@ -43,14 +44,21 @@ public class CarHUD {
         speedometer_dial = new Sprite(new Texture(("sprites/green_speedometer.png")));
         speedometer_dial.setPosition(10, 0);
 
+        fuel_dial = new Sprite(new Texture(("sprites/fuel2.png")));
+        fuel_dial.setPosition(250, 0);
+
         triangle = new Sprite(new Texture("sprites/triangle.png"));
 
         durability = new Sprite(new Texture(("sprites/durability.png")));
-        durability.setPosition(240, 30);
+        durability.setPosition(450, 30);
 
         speedometer_needle = new Sprite(new Texture(("sprites/needle.png")));
         speedometer_needle.setOrigin(13, 13);
         speedometer_needle.setPosition(100, 55);
+
+        fuel_needle = new Sprite(new Texture(("sprites/fuel_needle.png")));
+        fuel_needle.setOrigin(9, 9);
+        fuel_needle.setPosition(310, 40);
 
         z_key.setPosition(Gdx.graphics.getWidth() - 25, 30);
         x_key.setPosition(Gdx.graphics.getWidth() - 25, 60);
@@ -72,12 +80,14 @@ public class CarHUD {
         batch.begin();
 
         speedometer_dial.draw(batch);
+        fuel_dial.draw(batch);
         speedometer_needle.draw(batch);
+        fuel_needle.draw(batch);
         durability.draw(batch);
 
-        drawer.draw(batch, "Durability", 250, 20);
+        drawer.draw(batch, "Durability", 460, 20);
         // start = 237, end = 327
-        triangle.setPosition(((car.getDurability() / car.getMaxDurability()) * 90) + 237, 40);
+        triangle.setPosition(((car.getDurability() / car.getMaxDurability()) * 90) + 447, 40);
         triangle.draw(batch);
 
         if(car.getBody().getLinearVelocity().len() < 20) {
@@ -117,7 +127,10 @@ public class CarHUD {
 
         batch.end();
 
-        // THE MAGIC ONE LINER
+        // THE MAGIC ONE LINERS
+
         speedometer_needle.setRotation(-175 - car.getBody().getLinearVelocity().len());
+
+        fuel_needle.setRotation(15 - ((455 * car.getFuel()) / car.getFuelMax()));
     }
 }

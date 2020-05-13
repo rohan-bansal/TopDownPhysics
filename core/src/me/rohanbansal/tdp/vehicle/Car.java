@@ -52,15 +52,15 @@ public class Car extends BodyHolder {
     private Character driver = null;
     private boolean showGetIn = false;
     private float durability;
-    private float maxDurability;
+    private float fuel;
 
     public Car(CarProperties properties) {
         super(createBody(properties.getPosition(), properties.getWorld(), properties.getDensity()));
 
         this.properties = properties;
         this.regularMaxSpeed = properties.getMaxSpeed();
-        this.maxDurability = properties.getDurability();
-        this.durability = maxDurability;
+        this.durability = properties.getDurability();
+        this.fuel = properties.getFuelMax();
 
         carSprite = new Sprite(new Texture(Gdx.files.internal(properties.getCarPath())));
         getIn = new Sprite(new Texture(Gdx.files.internal("sprites/f_key.png")));
@@ -71,7 +71,7 @@ public class Car extends BodyHolder {
         getBody().setUserData(this);
         getBody().setLinearDamping(LINEAR_DAMPING);
         getBody().getFixtureList().get(0).setRestitution(RESTITUTION);
-        getBody().setTransform(getBody().getPosition().x, getBody().getPosition().y, properties.getAngle());
+        getBody().setTransform(getBody().getPosition().x, getBody().getPosition().y, properties.getAngle()); // set angle
     }
 
     private static Body createBody(Vector2 position, World world, float density) {
@@ -116,12 +116,20 @@ public class Car extends BodyHolder {
 
     }
 
+    public float getFuel() {
+        return fuel;
+    }
+
+    public float getFuelMax() {
+        return properties.getFuelMax();
+    }
+
     public float getDurability() {
         return durability;
     }
 
     public float getMaxDurability() {
-        return maxDurability;
+        return properties.getDurability();
     }
 
     public void setDurability(float durability) {
@@ -234,20 +242,25 @@ public class Car extends BodyHolder {
     }
 
     @Override
-    public void update(float delta, CameraController camera, ModifiedShapeRenderer renderer) {
-        super.update(delta, camera, renderer);
+    public void update(float delta, CameraController camera, ModifiedShapeRenderer renderer, World world) {
+        super.update(delta, camera, renderer, world);
         processInput();
+
 
         if(durability <= 0) {
             EffectFactory.createEffect(EffectFactory.EffectType.EXPLOSION, getBody().getPosition(), false, 4f);
             removePlayerFromCar(camera);
-            CarManager.deleteCar(this);
+            CarManager.deleteCar(this, world);
         }
 
-        if(driver != null) carHUD.render(renderer, camera);
+        if(driver != null) {
+            carHUD.render(renderer, camera);
+            this.fuel -= ((allWheels.get(0).getBody().getLinearVelocity().len() + allWheels.get(1).getBody().getLinearVelocity().len() + allWheels.get(2).getBody().getLinearVelocity().len() +
+                    allWheels.get(3).getBody().getLinearVelocity().len()) / 4 / 15000);
+        }
 
         for(Wheel wheel : new Array.ArrayIterator<>(allWheels)) {
-            wheel.update(delta, camera, renderer);
+            wheel.update(delta, camera, renderer, world);
         }
 
         carSprite.setBounds(getBody().getPosition().x - carSprite.getWidth() / 2, getBody().getPosition().y - carSprite.getHeight() / 2, 150 / PPM, 300 / PPM);

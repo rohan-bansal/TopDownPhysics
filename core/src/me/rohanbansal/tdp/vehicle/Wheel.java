@@ -44,8 +44,8 @@ public class Wheel extends BodyHolder {
     }
 
     @Override
-    public void update(float delta, CameraController camera, ModifiedShapeRenderer renderer) {
-        super.update(delta, camera, renderer);
+    public void update(float delta, CameraController camera, ModifiedShapeRenderer renderer, World world) {
+        super.update(delta, camera, renderer, world);
 
         renderer.setProjectionMatrix(camera.getCamera().combined);
         renderer.begin(ShapeRenderer.ShapeType.Filled);

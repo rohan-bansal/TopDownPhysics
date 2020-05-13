@@ -16,10 +16,11 @@ public class CarProperties {
     private String carPath;
     private float angle;
     private float durability;
+    private float fuelMax;
 
     private HashMap<Integer, Integer[]> wheelOffsets;
 
-    public CarProperties(Vector2 position, float maxSpeed, float drift, float acceleration, float density, float angle, float durability, CarType wheelDrive, World world, String carPath) {
+    public CarProperties(Vector2 position, float maxSpeed, float drift, float acceleration, float density, float angle, float durability, float fuelMax, CarType wheelDrive, World world, String carPath) {
         this.position = position;
         this.maxSpeed = maxSpeed;
         this.drift = drift;
@@ -30,8 +31,13 @@ public class CarProperties {
         this.carPath = carPath;
         this.angle = angle;
         this.durability = durability;
+        this.fuelMax = fuelMax;
 
         wheelOffsets = new HashMap<>();
+    }
+
+    public float getFuelMax() {
+        return fuelMax;
     }
 
     public float getDurability() {

@@ -22,8 +22,7 @@ public class ContactManager implements ContactListener {
             }
             if(a.getUserData() instanceof String && ((String) a.getUserData()).equals("Wall")) {
                 if(car.getBody().getLinearVelocity().len() > car.getMaxSpeed() / 5) {
-                    car.setDurability(car.getDurability() - 1);
-                    System.out.println(car.getDurability());
+                    car.setDurability(car.getDurability() - car.getBody().getLinearVelocity().len() * 0.06f);
                 }
             }
         }

@@ -32,7 +32,7 @@ public abstract class BodyHolder {
         this.id = id;
     }
 
-    public void update(final float delta, CameraController camera, ModifiedShapeRenderer renderer) {
+    public void update(final float delta, CameraController camera, ModifiedShapeRenderer renderer, World world) {
         if(drift < 1) {
             forwardSpeed = getForwardVelocity();
             lateralSpeed = getLateralVelocity();
