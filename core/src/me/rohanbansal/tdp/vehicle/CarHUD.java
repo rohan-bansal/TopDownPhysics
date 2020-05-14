@@ -131,6 +131,8 @@ public class CarHUD {
 
         speedometer_needle.setRotation(-175 - car.getBody().getLinearVelocity().len());
 
-        fuel_needle.setRotation(15 - ((455 * car.getFuel()) / car.getFuelMax()));
+        //fuel_needle.setRotation(15 - ((455 * car.getFuel()) / car.getFuelMax()));
+        // -80 full, 190 empty
+        fuel_needle.setRotation(190 - ((270 * car.getFuel()) / car.getFuelMax()));
     }
 }

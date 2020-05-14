@@ -211,25 +211,32 @@ public class Car extends BodyHolder {
 
     public void handleInput() {
 
-        if(Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
-            setDriveDirection(Direction.DRIVE_FORWARD);
-        } else if(Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) {
-            setDriveDirection(Direction.DRIVE_BACKWARD);
+        if(fuel > 0) {
+            if(Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W)) {
+                setDriveDirection(Direction.DRIVE_FORWARD);
+            } else if(Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S)) {
+                setDriveDirection(Direction.DRIVE_BACKWARD);
+            } else {
+                setDriveDirection(Direction.DRIVE_NONE);
+            }
+
+            if(Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
+                setTurnDirection(Direction.TURN_LEFT);
+            } else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
+                setTurnDirection(Direction.TURN_RIGHT);
+            } else {
+                setTurnDirection(Direction.TURN_NONE);
+            }
         } else {
             setDriveDirection(Direction.DRIVE_NONE);
-        }
-
-        if(Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A)) {
-            setTurnDirection(Direction.TURN_LEFT);
-        } else if(Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D)) {
-            setTurnDirection(Direction.TURN_RIGHT);
-        } else {
             setTurnDirection(Direction.TURN_NONE);
         }
 
         if(Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
             Gdx.app.log(getBody().getPosition().x + "", getBody().getPosition().y + "");
+            this.fuel -= 10;
         }
+        Gdx.app.log("", "" + getFuel());
 
     }
 
