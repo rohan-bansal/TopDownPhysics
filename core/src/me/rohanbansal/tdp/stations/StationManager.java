@@ -1,8 +1,12 @@
 package me.rohanbansal.tdp.stations;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.g2d.BitmapFont;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Vector2;
+import me.rohanbansal.tdp.Character;
 import me.rohanbansal.tdp.map.MapLoader;
 import me.rohanbansal.tdp.tools.CameraController;
 
@@ -14,6 +18,8 @@ public class StationManager {
     private MapLoader loader;
 
     private SpriteBatch batch;
+
+    private int id = 0;
 
     public StationManager(MapLoader loader) {
         this.loader = loader;
@@ -29,12 +35,13 @@ public class StationManager {
     }
 
     public void createStation(Vector2 location) {
-        stations.add(new GasStation(location));
+        stations.add(new GasStation(location, id));
+        id++;
     }
 
-    public void update(CameraController camera) {
+    public void update(CameraController camera, Character player) {
         for(GasStation station : stations) {
-            station.render(batch, camera);
+            station.render(batch, camera, player);
         }
     }
 }

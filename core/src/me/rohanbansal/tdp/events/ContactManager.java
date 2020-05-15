@@ -1,5 +1,7 @@
 package me.rohanbansal.tdp.events;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.physics.box2d.*;
 import me.rohanbansal.tdp.Character;
 import me.rohanbansal.tdp.map.MapLoader;
@@ -18,7 +20,11 @@ public class ContactManager implements ContactListener {
         if(CarManager.isCar(b)) {
             Car car = (Car) b.getUserData();
             if(Character.isPlayer(a)) {
-                car.displayGetIn((Character) a.getUserData());
+                if(((Character) a.getUserData()).selectingGasCar) {
+                    ((Character) a.getUserData()).setTempGasCar(car);
+                } else {
+                    car.displayGetIn((Character) a.getUserData());
+                }
             }
             if(a.getUserData() instanceof String && ((String) a.getUserData()).equals("Wall")) {
                 if(car.getBody().getLinearVelocity().len() > car.getMaxSpeed() / 5) {
@@ -58,7 +64,11 @@ public class ContactManager implements ContactListener {
         if(CarManager.isCar(b)) {
             Car car = (Car) b.getUserData();
             if(Character.isPlayer(a)) {
-                car.hideGetIn();
+                if(((Character) a.getUserData()).selectingGasCar) {
+                    ((Character) a.getUserData()).setTempGasCar(null);
+                } else {
+                    car.hideGetIn();
+                }
             }
         }
     }

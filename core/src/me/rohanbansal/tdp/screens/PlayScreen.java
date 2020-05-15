@@ -14,10 +14,7 @@ import me.rohanbansal.tdp.events.ContactManager;
 import me.rohanbansal.tdp.map.MapLoader;
 import me.rohanbansal.tdp.map.MapManager;
 import me.rohanbansal.tdp.stations.StationManager;
-import me.rohanbansal.tdp.tools.CameraController;
-import me.rohanbansal.tdp.tools.Effect;
-import me.rohanbansal.tdp.tools.EffectFactory;
-import me.rohanbansal.tdp.tools.ModifiedShapeRenderer;
+import me.rohanbansal.tdp.tools.*;
 import me.rohanbansal.tdp.vehicle.CarManager;
 
 import java.util.ArrayList;
@@ -133,8 +130,9 @@ public class PlayScreen implements Screen {
 
         HUDcamera.update();
         mManager.update(camera);
-        stationManager.update(camera);
+        stationManager.update(camera, character);
         CarManager.update(delta, camera, renderer, world);
+        HUDText.draw();
         camera.update();
         world.step(delta, 6, 2);
 

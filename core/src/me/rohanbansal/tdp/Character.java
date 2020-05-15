@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas.AtlasRegion;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -30,6 +31,9 @@ public class Character extends BodyHolder implements Disposable {
 
     private float stateTime = 0f;
     public boolean inCar = false;
+    public boolean selectingGasCar = false;
+    public Car gasSelected = null;
+    public Car tempGasCar = null;
 
     public Car car = null;
     private AtlasRegion currentFrame = null;
@@ -96,8 +100,19 @@ public class Character extends BodyHolder implements Disposable {
         this.inCar = inCar;
     }
 
+    public void setTempGasCar(Car tempGasCar) {
+        this.tempGasCar = tempGasCar;
+    }
+
     public void update(SpriteBatch batch, CameraController camera) {
         stateTime += Gdx.graphics.getDeltaTime();
+
+        if(tempGasCar != null) {
+            if(Gdx.input.isKeyJustPressed(Input.Keys.R)) {
+                gasSelected = tempGasCar;
+                tempGasCar = null;
+            }
+        }
 
         if(!inCar) {
             batch.setProjectionMatrix(camera.getCamera().combined);
@@ -108,6 +123,10 @@ public class Character extends BodyHolder implements Disposable {
             getBody().setTransform(0, 0, 0);
         }
 
+    }
+
+    public Rectangle getRectangle() {
+        return new Rectangle(getBody().getPosition().x - SIZE.x / 2 / PPM, getBody().getPosition().y - SIZE.y / 2 / PPM, SIZE.x / PPM, SIZE.y / PPM);
     }
 
     public static boolean isPlayer(Body b) {

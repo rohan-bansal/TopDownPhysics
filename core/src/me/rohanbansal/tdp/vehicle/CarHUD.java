@@ -12,6 +12,7 @@ import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
 import me.rohanbansal.tdp.screens.PlayScreen;
 import me.rohanbansal.tdp.tools.CameraController;
+import me.rohanbansal.tdp.tools.HUDText;
 import me.rohanbansal.tdp.tools.ModifiedShapeRenderer;
 
 import java.util.ArrayList;
@@ -20,7 +21,6 @@ public class CarHUD {
 
     private Car car;
     private SpriteBatch batch;
-    private BitmapFont drawer = new BitmapFont(Gdx.files.internal("fonts/ari2.fnt"));
 
     private Sprite z_key, x_key, c_key, speedometer_dial, speedometer_needle, durability, triangle, fuel_dial, fuel_needle;
     private Rectangle zO_key, xO_key, cO_key;
@@ -29,8 +29,6 @@ public class CarHUD {
     public CarHUD(Car car) {
         this.car = car;
         batch = new SpriteBatch();
-        drawer.getData().setScale(0.6f);
-        drawer.setColor(Color.WHITE);
 
         keys = new ArrayList<>();
 
@@ -85,7 +83,7 @@ public class CarHUD {
         fuel_needle.draw(batch);
         durability.draw(batch);
 
-        drawer.draw(batch, "Durability", 460, 20);
+        HUDText.drawText(batch, "Durability", 460, 20, Color.WHITE, 0.6f);
         // start = 237, end = 327
         triangle.setPosition(((car.getDurability() / car.getMaxDurability()) * 90) + 447, 40);
         triangle.draw(batch);
@@ -119,11 +117,11 @@ public class CarHUD {
             }
         }
         z_key.draw(batch);
-        drawer.draw(batch, "Zoom In", z_key.getX() + 27, z_key.getY() + 12);
+        HUDText.drawText(batch, "Zoom In", z_key.getX() + 27, z_key.getY() + 12, Color.WHITE, 0.6f);
         c_key.draw(batch);
-        drawer.draw(batch, "Zoom Out", c_key.getX() + 27, c_key.getY() + 12);
+        HUDText.drawText(batch, "Zoom Out", c_key.getX() + 27, c_key.getY() + 12, Color.WHITE, 0.6f);
         x_key.draw(batch);
-        drawer.draw(batch, "Reset Zoom", x_key.getX() + 27, x_key.getY() + 12);
+        HUDText.drawText(batch, "Reset Zoom", x_key.getX() + 27, x_key.getY() + 12, Color.WHITE, 0.6f);
 
         batch.end();
 

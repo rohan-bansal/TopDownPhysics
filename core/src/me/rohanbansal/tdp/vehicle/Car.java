@@ -5,6 +5,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Body;
 import com.badlogic.gdx.physics.box2d.BodyDef;
@@ -236,7 +237,6 @@ public class Car extends BodyHolder {
             Gdx.app.log(getBody().getPosition().x + "", getBody().getPosition().y + "");
             this.fuel -= 10;
         }
-        Gdx.app.log("", "" + getFuel());
 
     }
 
@@ -295,8 +295,15 @@ public class Car extends BodyHolder {
             }
         }
 
-
         PlayScreen.batch.end();
+    }
+
+    public void incrementFuelBy(float value) {
+        this.fuel += value;
+    }
+
+    public Rectangle getRectangle() {
+        return new Rectangle(getBody().getPosition().x - 64 / 2 / PPM, getBody().getPosition().y - 128 / 2 / PPM, 64 / PPM, 128 / PPM);
     }
 
     private void removePlayerFromCar(CameraController camera) {
