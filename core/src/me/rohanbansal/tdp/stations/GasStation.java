@@ -74,7 +74,7 @@ public class GasStation {
                     player.gasSelected.incrementFuelBy(Constants.GAS_STATION_FUEL_RATE);
                 } else {
                     layout.setText(HUDText.getDrawer(0.6f), "Fueling Finished");
-                    //HUDText.drawTimeoutText(batch, "Fueling Finished", (Gdx.graphics.getWidth() - layout.width) / 2, 25, Color.GREEN, 0.6f, 2f);
+                    HUDText.drawTimeoutText(batch, "Fueling Finished", (Gdx.graphics.getWidth() - layout.width) / 2, 25, Color.GREEN, 0.6f, 2f);
                     finishStation(player);
                 }
                 layout.setText(HUDText.getDrawer(0.6f), "Fueling, 'Q' to cancel");

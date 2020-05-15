@@ -49,13 +49,10 @@ public class HUDText {
             for(int i = 0; i < drawTimeout.size(); i++) {
                 if(drawTimeout.get(i).startedTime == 0f) {
                     drawTimeout.get(i).startedTime = System.currentTimeMillis();
-                    Gdx.app.log("here", "" + drawTimeout.get(i).startedTime);
                 }
                 if(((System.currentTimeMillis() - drawTimeout.get(i).startedTime) / 1000f) > drawTimeout.get(i).goalTime) {
                     drawTimeout.remove(i);
                     break;
-                } else {
-                    Gdx.app.log("", "" + (float) ((System.currentTimeMillis() - drawTimeout.get(i).startedTime) / 1000f) );
                 }
                 drawTimeout.get(i).batch.setProjectionMatrix(PlayScreen.HUDcamera.getCamera().combined);
                 drawTimeout.get(i).batch.begin();
@@ -91,7 +88,7 @@ class TextWithTimeout {
     public float x, y;
     public Color color;
     public float scale;
-    public float startedTime;
+    public long startedTime;
     public float goalTime;
 
     public TextWithTimeout(SpriteBatch batch, String text, float x, float y, Color color, float scale, float secTimeout) {
