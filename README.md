@@ -11,4 +11,4 @@
 ### Install/Run
 
 1. Clone the repository
-2. Run `./gradlew build && ./gradlew run` in a terminal
+2. Run `./gradlew build && ./gradlew run` in a terminal (preferably with Java 8)

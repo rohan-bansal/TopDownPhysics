@@ -30,7 +30,7 @@ public class MapManager {
         tiledMapRenderer.render();
     }
 
-    public void loadCars(World world) {
+    public void loadCars(World world, CameraController camera) {
         for(RectangleMapObject obj : loader.getCarRects()) {
             Rectangle rect = obj.getRectangle();
             Rectangle realRect = new Rectangle(rect.getX() + rect.getWidth() / 2, rect.getY() + rect.getHeight() / 2, rect.getWidth() / 2, rect.getHeight() / 2);
@@ -38,7 +38,7 @@ public class MapManager {
             String carType = (String) obj.getProperties().get("type");
             CarManager.CarModel carModel = CarManager.CarModel.valueOf(obj.getName().toUpperCase());
 
-            CarManager.createCar(carModel, new Vector2((realRect.getX() - realRect.getWidth()) / PPM, (realRect.getY() - realRect.getHeight()) / PPM), processCarType(carType), world);
+            CarManager.createCar(carModel, new Vector2((realRect.getX() - realRect.getWidth()) / PPM, (realRect.getY() - realRect.getHeight()) / PPM), processCarType(carType), world, camera);
         }
     }
 

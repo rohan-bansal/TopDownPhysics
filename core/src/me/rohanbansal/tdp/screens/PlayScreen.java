@@ -36,7 +36,7 @@ public class PlayScreen implements Screen {
     public static final CameraController HUDcamera = new CameraController(false);
 
 
-    private boolean renderingDebug = false, renderingVelocities = false;
+    public static boolean renderingDebug = false, renderingVelocities = false;
 
     public PlayScreen() {
         world = new World(GRAVITY, false);
@@ -52,7 +52,7 @@ public class PlayScreen implements Screen {
         mapLoader = new MapLoader(world).loadMap();
 
         mManager = new MapManager(mapLoader);
-        mManager.loadCars(world);
+        mManager.loadCars(world, camera);
 
         stationManager = new StationManager(mapLoader);
         stationManager.generateStations();

@@ -2,14 +2,14 @@ package me.rohanbansal.tdp.vehicle;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.math.Vector2;
-import com.badlogic.gdx.physics.box2d.Body;
-import com.badlogic.gdx.physics.box2d.BodyDef;
-import com.badlogic.gdx.physics.box2d.World;
+import com.badlogic.gdx.physics.box2d.*;
 import com.badlogic.gdx.physics.box2d.joints.PrismaticJointDef;
 import com.badlogic.gdx.physics.box2d.joints.RevoluteJointDef;
 import com.badlogic.gdx.utils.Array;
@@ -47,6 +47,7 @@ public class Car extends BodyHolder {
 
     private CarProperties properties;
     private CarHUD carHUD;
+    private AIController AIcontroller;
 
     private Sprite carSprite, getIn;
     private Character prospectiveDriver = null;
@@ -55,7 +56,7 @@ public class Car extends BodyHolder {
     private float durability;
     private float fuel;
 
-    public Car(CarProperties properties) {
+    public Car(CarProperties properties, CameraController camera) {
         super(createBody(properties.getPosition(), properties.getWorld(), properties.getDensity()));
 
         this.properties = properties;
@@ -68,6 +69,7 @@ public class Car extends BodyHolder {
 
         createWheels(properties.getWorld(), properties.getWheelDrive());
         carHUD = new CarHUD(this);
+        AIcontroller = new AIController(properties.getWorld(), camera);
 
         getBody().setUserData(this);
         getBody().setLinearDamping(LINEAR_DAMPING);
@@ -264,6 +266,8 @@ public class Car extends BodyHolder {
             carHUD.render(renderer, camera);
             this.fuel -= ((allWheels.get(0).getBody().getLinearVelocity().len() + allWheels.get(1).getBody().getLinearVelocity().len() + allWheels.get(2).getBody().getLinearVelocity().len() +
                     allWheels.get(3).getBody().getLinearVelocity().len()) / 4 / 15000);
+
+            AIcontroller.rayCast(world, getRectangle());
         }
 
         for(Wheel wheel : new Array.ArrayIterator<>(allWheels)) {
