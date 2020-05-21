@@ -5,6 +5,8 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.Screen;
 import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.objects.PolygonMapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.math.Vector3;
 import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer;
@@ -14,10 +16,13 @@ import me.rohanbansal.tdp.events.ContactManager;
 import me.rohanbansal.tdp.map.MapLoader;
 import me.rohanbansal.tdp.map.MapManager;
 import me.rohanbansal.tdp.stations.StationManager;
-import me.rohanbansal.tdp.tools.*;
+import me.rohanbansal.tdp.tools.CameraController;
+import me.rohanbansal.tdp.tools.EffectFactory;
+import me.rohanbansal.tdp.tools.HUDText;
+import me.rohanbansal.tdp.tools.ModifiedShapeRenderer;
 import me.rohanbansal.tdp.vehicle.CarManager;
 
-import java.util.ArrayList;
+import java.util.Arrays;
 
 import static me.rohanbansal.tdp.Constants.*;
 
@@ -27,7 +32,7 @@ public class PlayScreen implements Screen {
     private final World world;
     private final Box2DDebugRenderer B2DR;
     private final CameraController camera;
-    private final MapLoader mapLoader;
+    public static MapLoader mapLoader;
     private ModifiedShapeRenderer renderer = new ModifiedShapeRenderer();
     private MapManager mManager;
     private StationManager stationManager;
@@ -121,7 +126,9 @@ public class PlayScreen implements Screen {
             } else {
                 B2DR.setDrawVelocities(false);
             }
-            B2DR.render(world, camera.getCamera().combined);
+            if(!Gdx.input.isKeyPressed(Input.Keys.N)) {
+                B2DR.render(world, camera.getCamera().combined);
+            }
         }
         character.update(batch, camera);
     }
@@ -129,7 +136,9 @@ public class PlayScreen implements Screen {
     private void update(float delta) {
 
         HUDcamera.update();
-        mManager.update(camera);
+        if(!Gdx.input.isKeyPressed(Input.Keys.N)) {
+            mManager.update(camera);
+        }
         stationManager.update(camera, character);
         CarManager.update(delta, camera, renderer, world);
         HUDText.draw();

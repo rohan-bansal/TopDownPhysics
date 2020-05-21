@@ -267,7 +267,7 @@ public class Car extends BodyHolder {
             this.fuel -= ((allWheels.get(0).getBody().getLinearVelocity().len() + allWheels.get(1).getBody().getLinearVelocity().len() + allWheels.get(2).getBody().getLinearVelocity().len() +
                     allWheels.get(3).getBody().getLinearVelocity().len()) / 4 / 15000);
 
-            AIcontroller.rayCast(world, getRectangle());
+            AIcontroller.update(world, getRectangle());
         }
 
         for(Wheel wheel : new Array.ArrayIterator<>(allWheels)) {

@@ -1,6 +1,5 @@
 package me.rohanbansal.tdp.vehicle;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.glutils.ShapeRenderer;
 import com.badlogic.gdx.math.Rectangle;
@@ -8,8 +7,10 @@ import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.physics.box2d.Fixture;
 import com.badlogic.gdx.physics.box2d.RayCastCallback;
 import com.badlogic.gdx.physics.box2d.World;
+import me.rohanbansal.tdp.map.LineNode;
 import me.rohanbansal.tdp.screens.PlayScreen;
 import me.rohanbansal.tdp.tools.CameraController;
+import me.rohanbansal.tdp.map.RouteLine;
 import me.rohanbansal.tdp.tools.ModifiedShapeRenderer;
 
 import java.util.ArrayList;
@@ -47,6 +48,24 @@ public class AIController {
         }
     }
 
+    public void update(World world, Rectangle carRect) {
+        //rayCast(world, carRect);
+
+        renderer.setProjectionMatrix(camera.getCamera().combined);
+        renderer.begin(ShapeRenderer.ShapeType.Filled);
+
+        for(RouteLine line : PlayScreen.mapLoader.getNodelines()) {
+            renderer.setColor(Color.WHITE);
+            renderer.line(line.getStart(), line.getEnd());
+            for(LineNode node : line.getNodes()) {
+                renderer.setColor(Color.OLIVE);
+                renderer.circle(node.getX(), node.getY(), 1f);
+            }
+        }
+
+        renderer.end();
+    }
+
     public void rayCast(World world, Rectangle rectangle) {
 
         world.rayCast(callbacks.get(0),
@@ -76,8 +95,6 @@ public class AIController {
                 new Vector2(rectangle.getX() + rectangle.getWidth() / 2 - 25, rectangle.getY() + rectangle.getHeight() / 2 + 25));
 
         drawRays(rectangle, camera);
-
-
     }
 
     private void drawRays(Rectangle rectangle, CameraController camera) {
