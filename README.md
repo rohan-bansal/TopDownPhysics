@@ -1,7 +1,7 @@
-# Top Down Physics
+# GTA -1
 ## A simulator for real world physics with cars and people
 
-_Currently being completely rewritten using my newly-created game engine, Ricochet._
+_Currently being rewritten using my newly-created game engine, Ricochet._
 
 
 ### Features
